@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}SmartFoods.::.Products{% endblock%}
+{% from 'layout.html' import navbar2, myscripts, err %}
+
+{% block nav %}
+    {% call navbar2() %}
+       <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Control Panel <b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             <li><a href="/suppliers">Suppliers</a></li>
+             <li><a href="/rawmaterials">Raw Materials</a></li>
+             <li><a href="/products">Products</a></li>
+             <li><a href="/supplies">Record Supply</a></li>
+             <li><a href="/transactions">Transactions</a></li>
+             <li class="divider"></li>
+             <li class="nav-header">Admin Panel</li>
+             <li><a href="/users">Users</a></li>
+             <li><a href="/settings">Settings</a></li>
+           </ul>
+       </li>
+    {% endcall %}
+{% endblock %}
+
+{%block content %}
+    {{ err(err_msg) }}
+    <form name="p" method="post" action="">
+        <fieldset>
+        <legend>Add/Edit Product</legend>
+        <table>
+            <tr><td>Name:</td><td><input name="name" value="{{ name }}" type="text" class=""/></td></tr>
+            <tr><td>Description:</td><td><textarea name="descr" type="text" class="">{{ descr }}</textarea></td></tr>
+            <tr><td></td><td><input name="submit" value="Save" type="submit" class="btn" /></td></tr>
+        </table>
+    </form>
+    <br/>
+    <table class="table table-condensed" style="padding-bottom: 0px; margin-bottom:0px; border-bottom:none;
+        background-color:#333333;color:ffffff;">
+            <tr><th style="color:#fff">Suppliers</th><th></th></tr>
+    </table>
+    <table class="table table-condensed  table-striped table-bordered">
+        <tr><th>#</th><th>Name</th><th>Description</th><th>Quantity</th><th>Action</th></tr>
+        {% for l in res %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ l.name }}</td>
+                <td>{{ l.descr }}</td>
+                <td>{{ l.quantity }}</td>
+                <td>
+                    <a href="/products?ed={{ l.id }}&page={{ page }}"><i class="icon-edit"></i></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="/products?d_id={{ l.id }}&page={{ page }}"><i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        {% endfor%}
+    </table>
+    {{ pagination_str }}
+{% endblock %}
+
+{% block scripts %}
+    {% call myscripts() %}
+    {% endcall %}
+{% endblock %}

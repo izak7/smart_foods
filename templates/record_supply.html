@@ -1,0 +1,88 @@
+{%extends "layout.html" %}
+{% from 'layout.html' import navbar2, myscripts %}
+
+{%block title %}SmartFoods.::.Suppliers{% endblock %}
+{%block nav %}
+    {% call navbar2() %}
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Control Panel <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/suppliers">Suppliers</a></li>
+              <li><a href="/rawmaterials">Raw Materials</a></li>
+              <li><a href="/products">Products</a></li>
+              <li><a href="/supplies">Record Supply</a></li>
+              <li><a href="/transactions">Transactions</a></li>
+              <li class="divider"></li>
+              <li class="nav-header">Admin Panel</li>
+              <li><a href="/users">Users</a></li>
+              <li><a href="/settings">Settings</a></li>
+            </ul>
+        </li>
+    {% endcall %}
+{% endblock %}
+
+{%block content %}
+    <form name="" method="post" action="">
+        <fieldset>
+            <legend>Record Supply</legend>
+        <table>
+            <tr><td>Raw Material:</td>
+                <td>
+                    <select name="rm">
+                        <option value="">Select Raw material</option>
+                        {% for opt in materials %}
+                            <option value="{{ opt.id }}">{{ opt.name }}({{ opt.quality_rank }})</option>
+                        {% endfor%}
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Supplier:</td>
+                <td>
+                    <select name="sup">
+                        <option value="">Select Supplier</option>
+                        {% for opt in suppliers %}
+                            <option value="{{ opt.id }}">{{ opt.name }}</option>
+                        {% endfor%}
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Quantity:</td>
+                <td>
+                    <input name="qty" type="text" size="10" class="input-small"/>
+                    &nbsp;&nbsp;
+                    <select name="units" class="input-small">
+                        <option value="kg">Kilograms</option>
+                        <option value="l">Litres</option>
+                        <option value="cartons"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Date Supplied:</td><td><input name="date" type="date" class="" /></td></tr>
+            <tr><td></td><td><input name="submit" value="Save" type="submit" class="btn" /></td></tr>
+        </table>
+        </fieldset>
+    </form>
+    <br/>
+    <table class="table table-condensed" style="padding-bottom: 0px; margin-bottom:0px; border-bottom:none;
+        background-color:#333;color:ffffff;">
+            <tr><th style="color:#fff">Suppliers</th><th></th></tr>
+    </table>
+    <table class="table table-condensed table-striped table-bordered">
+        <tr><th>Name</th><th>Address</th><th>Telephone</th><th>Email</th><th>Action</th></tr>
+        {% for l in res %}
+            <tr>
+                <td>{{ l.name }}</td>
+                <td>{{ l.address }}</td>
+                <td>{{ l.telephone }}</td>
+                <td>{{ l.email }}</td>
+                <td></td>
+            </tr>
+        {% endfor%}
+    </table>
+    {{ pagination_str }}
+{% endblock %}
+
+{%block scripts %}
+    {% call myscripts() %}
+    {% endcall %}
+{% endblock %}
